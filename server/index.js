@@ -1,36 +1,34 @@
-const express = require('express')
-const mongoose = require('mongoose')
-const cors = require('cors')
-const RegisterModel = require('./models/Register')
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv'); // Import dotenv
 
-const app = express()
-app.use(cors())
-app.use(express.json())
+dotenv.config(); // Load environment variables from .env file
 
+const RegisterModel = require('./models/Register');
 
-mongoose.connect('mongodb://127.0.0.1:27017/htm');
+const app = express();
+app.use(cors());
+app.use(express.json());
 
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }); // Use MONGODB_URI from environment variable
 
+app.post('/register', (req, res) => {
+    const { name, email, team, password } = req.body;
+    RegisterModel.findOne({ email: email })
+        .then(user => {
+            if (user) {
+                res.json("Already have an account");
+            } else {
+                RegisterModel.create({ name: name, email: email, team: team, password: password })
+                    .then(result => res.json("Account created"))
+                    .catch(err => res.json(err));
+            }
+        })
+        .catch(err => res.json(err));
+});
 
-app.post('/register', (req, res)=>{
-    const {name, email, team,  password} =req.body;
-    RegisterModel.findOne({email:email})
-    .then(user=>{
-       if(user){
-        res.json("Already have an account")
-       }
-       else{
-        RegisterModel.create({name:name, email:email, team:team , password:password})
-        .then(result=>res.json("Account created"))
-        .catch(err=> res.json(err))
-
-       }
-    }).catch(err =>res.json(err))
-
-
-
-
-})
-app.listen(3001, ()=>{
-    console.log("Server is running")
-})
+const PORT = process.env.PORT || 3001; // Use PORT from environment variable or default to 3001
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
