@@ -14,13 +14,13 @@ app.use(express.json());
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true }); // Use MONGODB_URI from environment variable
 
 app.post('/register', (req, res) => {
-    const { name, email, team, password } = req.body;
+    const { name, email, password } = req.body;
     RegisterModel.findOne({ email: email })
         .then(user => {
             if (user) {
                 res.json("Already have an account");
             } else {
-                RegisterModel.create({ name: name, email: email, team: team, password: password })
+                RegisterModel.create({ name: name, email: email, password: password })
                     .then(result => res.json("Account created"))
                     .catch(err => res.json(err));
             }
