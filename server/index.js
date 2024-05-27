@@ -28,7 +28,7 @@ app.post('/register', (req, res) => {
         .catch(err => res.json(err));
 });
 app.get('/',(req,res)=>{
-    res.send("hello world");
+    res.send(" world");
   })
 const PORT= process.env.PORT || 3001; // Use PORT from environment variable or default to 3001
 app.listen(PORT, () => {
