@@ -2,7 +2,7 @@ import { useState } from 'react';
 import "../index.css"
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-const baseurl = "https://hackthemountain.onrender.com"
+const baseurl = "http://hackthemountain-2.onrender.com/"
 
 
 const RegistrationForm = () => {
