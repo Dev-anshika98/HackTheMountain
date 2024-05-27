@@ -2,6 +2,9 @@ import { useState } from 'react';
 import "../index.css"
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
+const baseurl = "https://hackthemountain.onrender.com"
+
+
 const RegistrationForm = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -59,7 +62,7 @@ const RegistrationForm = () => {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await fetch('http://localhost:3001/register', {
+        const response = await fetch(`${baseurl}/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
